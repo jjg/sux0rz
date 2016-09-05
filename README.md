@@ -10,5 +10,5 @@ Then start flask:
 
 The app will start-up and you should be able to load the controller by pointing a browser at 
 
-	`http://<your local IP address>:5000/`
+	http://<your local IP address>:5000/
 
