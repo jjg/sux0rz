@@ -1,8 +1,8 @@
 # Running the server
 You need to set a few environment variables first:
 
-`export FLASK_APP=brainz.py`
-`export FLASK_DEBUG=1`
+*  `export FLASK_APP=brainz.py`
+*  `export FLASK_DEBUG=1`
 
 Then start flask:
 
