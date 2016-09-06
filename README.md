@@ -1,3 +1,6 @@
+# Requirements
+TBD
+
 # Running the server
 You need to set a few environment variables first:
 
@@ -12,3 +15,5 @@ The app will start-up and you should be able to load the controller by pointing 
 
 	http://<your local IP address>:5000/
 
+# Reference
+*  Video stream: https://github.com/foosel/OctoPrint/wiki/Setup-on-a-Raspberry-Pi-running-Raspbian

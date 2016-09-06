@@ -1,6 +1,23 @@
 {% extends "layout.html" %}
 {% block content %}
 	<h2>Sux0rz Home</h2>
+	<img src="http://192.168.1.201:8080/?action=stream" />
 
-	
+	</br>
+	<input type="button" value="m1 on" onClick="m1Click(50)"></input>
+	&nbsp;&nbsp;
+	<input type="button" value="m1 off" onClick="m1Click(0)"></input>
+
+	<script>
+		function reqListener () {
+		  console.log(this.responseText);
+		}		
+
+		function m1Click(val){
+		var oReq = new XMLHttpRequest();
+		oReq.addEventListener("load", reqListener);
+		oReq.open("GET", "http://192.168.1.201:5000/m1/" + val);
+		oReq.send();
+		}
+	</script>	
 {% endblock %}
