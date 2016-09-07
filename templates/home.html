@@ -17,8 +17,8 @@
 
 	<script>
 
-
-		// TODO: touch events come in too fast and flood the server, so some sort of "dampening" needs to be put in place
+	var lastM1 = 0;
+	var lastM2 = 0;
 
 		var debugView = document.getElementById('debug');
 
@@ -37,9 +37,11 @@
 		function handleM1Move(evt){
 
 			var val =  Math.floor(100 - (evt.touches[0].clientY / 4));
-			debugView.innerHTML = val;
 
-			m1Click(val);
+			if((val - lastM1) > 10 || (lastM1 - val) > 10){
+				lastM1 = val;
+				m1Click(val);
+			}
 
 			evt.preventDefault();
 		}
@@ -62,8 +64,10 @@
 
             var val =  Math.floor(100 - (evt.touches[0].clientY / 4));
             debugView.innerHTML = val;
-
-            m2Click(val);
+		 if((val - lastM2) > 10 || (lastM2 - val) > 10){
+			lastM2 = val;
+            	m2Click(val);
+		}
 
             evt.preventDefault();
         }
