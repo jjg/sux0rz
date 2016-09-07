@@ -11,26 +11,34 @@
     motor 2
 </div>
 
-<div id="debug" style="border:solid blue">
-    log start
-</div>
-
 <script>
 
+    // keep track of the last motor speed for dampening purposes
     var lastM1 = 0;
     var lastM2 = 0;
 
-    var debugView = document.getElementById('debug');
-
-    function reqListener () {
+    // network event handler functions
+    function m1Response () {
         console.log(this.responseText);
-    }       
+    }
 
-    function m1Click(val){
-        var oReq = new XMLHttpRequest();
-        oReq.addEventListener("load", reqListener);
-        oReq.open("GET", "http://192.168.1.201:5000/m1/" + val);
-        oReq.send();
+    function m2Response(){
+        console.log(this.responseText);
+    }
+
+    // network request functions
+    function m1Request(val){
+        var m1Req = new XMLHttpRequest();
+        m1Req.addEventListener("load", m1Response);
+        m1Req.open("GET", "/m1/" + val);
+        m1Req.send();
+    }
+
+    function m2Request(val){
+        var m2Req = new XMLHttpRequest();
+        m2Req.addEventListener("load", m2Response);
+        m2Req.open("GET", "/m2/" + val);
+        m2Req.send();
     }
 
     // control pad events
@@ -38,41 +46,33 @@
         var val =  Math.floor(100 - (evt.touches[0].clientY / 4));
         if((val - lastM1) > 10 || (lastM1 - val) > 10){
             lastM1 = val;
-            m1Click(val);
+            m1Request(val);
         }
         evt.preventDefault();
     }
 
     function handleM1End(evt){
         // just go back to zero
-        m1Click(0);
+        m1Request(0);
         evt.preventDefault();
     }
 
-    function m2Click(val){
-        var oReq = new XMLHttpRequest();
-        oReq.addEventListener("load", reqListener);
-        oReq.open("GET", "http://192.168.1.201:5000/m2/" + val);
-        oReq.send();
-    }
-
-    // control pad events
     function handleM2Move(evt){
         var val =  Math.floor(100 - (evt.touches[0].clientY / 4));
-        debugView.innerHTML = val;
         if((val - lastM2) > 10 || (lastM2 - val) > 10){
             lastM2 = val;
-            m2Click(val);
+            m2Request(val);
         }
         evt.preventDefault();
     }
 
     function handleM2End(evt){
-        // just go back to zero
-        m2Click(0);
         evt.preventDefault();
+        // just go back to zero
+        m2Request(0);
     }
 
+    // bind UI event handlers
     var motor1Control = document.getElementById('motor_1_control');
     motor1Control.addEventListener('touchmove', handleM1Move, false);
     motor1Control.addEventListener('touchend', handleM1End, false);
