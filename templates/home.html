@@ -11,11 +11,34 @@
     motor 2
 </div>
 
+<div id="log">
+    log init
+</div>
+
 <script>
+
+    // get a handle on the log UI element
+    var logView = document.getElementById('log');
 
     // keep track of the last motor speed for dampening purposes
     var lastM1 = 0;
     var lastM2 = 0;
+
+    // keep track of the touch indexes so we can pick them out of the events
+    var m1TouchId = null;
+    var m2TouchId = null;
+
+    // utility functions
+    function touchIndexById(idToFind, touches) {
+      for (var i = 0; i < touches.length; i++) {
+        var id = touches[i].identifier;
+        
+        if (id == idToFind) {
+          return i;
+        }
+      }
+      return -1;    // not found
+    }
 
     // network event handler functions
     function m1Response () {
@@ -43,31 +66,41 @@
 
     // control pad events
     function handleM1Move(evt){
-        var val =  Math.floor(100 - (evt.touches[0].clientY / 4));
-        if((val - lastM1) > 10 || (lastM1 - val) > 10){
-            lastM1 = val;
-            m1Request(val);
-        }
         evt.preventDefault();
+        if(m1TouchId){
+            var val =  Math.floor(100 - (evt.touches[touchIndexById(m1TouchId, evt.touches)].clientY / 4));
+            if((val - lastM1) > 10 || (lastM1 - val) > 10){
+                lastM1 = val;
+                m1Request(val);
+            }
+        } else {
+            m1TouchId = evt.touches[(evt.touches.length - 1)].identifier;
+        }
     }
 
     function handleM1End(evt){
+        evt.preventDefault();
+        m1TouchId = null;
         // just go back to zero
         m1Request(0);
-        evt.preventDefault();
     }
 
     function handleM2Move(evt){
-        var val =  Math.floor(100 - (evt.touches[0].clientY / 4));
-        if((val - lastM2) > 10 || (lastM2 - val) > 10){
-            lastM2 = val;
-            m2Request(val);
-        }
         evt.preventDefault();
+        if(m2TouchId){
+            var val =  Math.floor(100 - (evt.touches[touchIndexById(m2TouchId, evt.touches)].clientY / 4));
+            if((val - lastM2) > 10 || (lastM2 - val) > 10){
+                lastM2 = val;
+                m2Request(val);
+            }
+        } else {
+            m2TouchId= evt.touches[(evt.touches.length - 1)].identifier;
+        }
     }
 
     function handleM2End(evt){
         evt.preventDefault();
+        m2TouchId = null;
         // just go back to zero
         m2Request(0);
     }
