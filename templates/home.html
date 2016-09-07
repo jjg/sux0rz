@@ -1,90 +1,85 @@
 {% extends "layout.html" %}
 {% block content %}
 
-	<div id="motor_1_control" style="width:150; height:400; border: solid red; float:left;">
-		motor 1
-	</div>
+<div id="motor_1_control" style="width:150; height:400; border: solid red; float:left;">
+    motor 1
+</div>
 
-	<img src="http://192.168.1.201:8080/?action=stream" />
+<img src="http://192.168.1.201:8080/?action=stream" />
 
-	<div id="motor_2_control" style="width:150; height:400; border: solid green; float:right;">
-		motor 2
-	</div>
+<div id="motor_2_control" style="width:150; height:400; border: solid green; float:right;">
+    motor 2
+</div>
 
-	<div id="debug" style="border:solid blue">
-		log start
-	</div>
+<div id="debug" style="border:solid blue">
+    log start
+</div>
 
-	<script>
+<script>
 
-	var lastM1 = 0;
-	var lastM2 = 0;
+    var lastM1 = 0;
+    var lastM2 = 0;
 
-		var debugView = document.getElementById('debug');
+    var debugView = document.getElementById('debug');
 
-        function reqListener () {
-          console.log(this.responseText);
-        }       
+    function reqListener () {
+        console.log(this.responseText);
+    }       
 
-        function m1Click(val){
-	        var oReq = new XMLHttpRequest();
-    	    oReq.addEventListener("load", reqListener);
-        	oReq.open("GET", "http://192.168.1.201:5000/m1/" + val);
-        	oReq.send();
+    function m1Click(val){
+        var oReq = new XMLHttpRequest();
+        oReq.addEventListener("load", reqListener);
+        oReq.open("GET", "http://192.168.1.201:5000/m1/" + val);
+        oReq.send();
+    }
+
+    // control pad events
+    function handleM1Move(evt){
+        var val =  Math.floor(100 - (evt.touches[0].clientY / 4));
+        if((val - lastM1) > 10 || (lastM1 - val) > 10){
+            lastM1 = val;
+            m1Click(val);
         }
+        evt.preventDefault();
+    }
 
-		// control pad events
-		function handleM1Move(evt){
+    function handleM1End(evt){
+        // just go back to zero
+        m1Click(0);
+        evt.preventDefault();
+    }
 
-			var val =  Math.floor(100 - (evt.touches[0].clientY / 4));
+    function m2Click(val){
+        var oReq = new XMLHttpRequest();
+        oReq.addEventListener("load", reqListener);
+        oReq.open("GET", "http://192.168.1.201:5000/m2/" + val);
+        oReq.send();
+    }
 
-			if((val - lastM1) > 10 || (lastM1 - val) > 10){
-				lastM1 = val;
-				m1Click(val);
-			}
-
-			evt.preventDefault();
-		}
-
-		function handleM1End(evt){
-			// just go back to zero
-			m1Click(0);
-			evt.preventDefault();
-		}
-
-        function m2Click(val){
-            var oReq = new XMLHttpRequest();
-            oReq.addEventListener("load", reqListener);
-            oReq.open("GET", "http://192.168.1.201:5000/m2/" + val);
-            oReq.send();
+    // control pad events
+    function handleM2Move(evt){
+        var val =  Math.floor(100 - (evt.touches[0].clientY / 4));
+        debugView.innerHTML = val;
+        if((val - lastM2) > 10 || (lastM2 - val) > 10){
+            lastM2 = val;
+            m2Click(val);
         }
+        evt.preventDefault();
+    }
 
-        // control pad events
-        function handleM2Move(evt){
+    function handleM2End(evt){
+        // just go back to zero
+        m2Click(0);
+        evt.preventDefault();
+    }
 
-            var val =  Math.floor(100 - (evt.touches[0].clientY / 4));
-            debugView.innerHTML = val;
-		 if((val - lastM2) > 10 || (lastM2 - val) > 10){
-			lastM2 = val;
-            	m2Click(val);
-		}
+    var motor1Control = document.getElementById('motor_1_control');
+    motor1Control.addEventListener('touchmove', handleM1Move, false);
+    motor1Control.addEventListener('touchend', handleM1End, false);
 
-            evt.preventDefault();
-        }
+    var motor2Control = document.getElementById('motor_2_control');
+    motor2Control.addEventListener('touchmove', handleM2Move, false);
+    motor2Control.addEventListener('touchend', handleM2End, false);
 
-        function handleM2End(evt){
-            // just go back to zero
-            m2Click(0);
-            evt.preventDefault();
-        }
-
-		var motor1Control = document.getElementById('motor_1_control');
-		motor1Control.addEventListener('touchmove', handleM1Move, false);
-		motor1Control.addEventListener('touchend', handleM1End, false);
-
-        var motor2Control = document.getElementById('motor_2_control');
-        motor2Control.addEventListener('touchmove', handleM2Move, false);
-		motor2Control.addEventListener('touchend', handleM2End, false);
-
-	</script>	
+</script>       
 {% endblock %}
