@@ -11,12 +11,6 @@ app = Flask(__name__)
 def home():
 	return render_template('home.html')
 
-@app.route('/hello')
-def hello_world():
-	motor_1.write(.1)
-	motor_2.write(.1)
-	return 'Hello, World!'
-
 @app.route('/m1/<int:speed>')
 def motor_1_speed(speed):
 	rate = float(speed) / 100
