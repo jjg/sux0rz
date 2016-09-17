@@ -69,7 +69,7 @@
         evt.preventDefault();
         if(m1TouchId){
             var val =  Math.floor(100 - (evt.touches[touchIndexById(m1TouchId, evt.touches)].clientY / 4));
-            if((val - lastM1) > 10 || (lastM1 - val) > 10){
+            if((val - lastM1) > 5 || (lastM1 - val) > 5){
                 lastM1 = val;
                 m1Request(val);
             }
@@ -89,7 +89,7 @@
         evt.preventDefault();
         if(m2TouchId){
             var val =  Math.floor(100 - (evt.touches[touchIndexById(m2TouchId, evt.touches)].clientY / 4));
-            if((val - lastM2) > 10 || (lastM2 - val) > 10){
+            if((val - lastM2) > 5 || (lastM2 - val) > 5){
                 lastM2 = val;
                 m2Request(val);
             }
