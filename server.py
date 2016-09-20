@@ -1,3 +1,4 @@
+import socket
 from pyfirmata import Arduino, util
 from flask import Flask, render_template
 
@@ -20,7 +21,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-	return render_template('home.html')
+	return render_template('home.html', server_ip=socket.gethostname())
 
 @app.route('/m1/<string:speed>')
 def motor_1_speed(speed):
