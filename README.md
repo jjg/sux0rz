@@ -19,7 +19,7 @@ The code is hard-coded to the hostname `sux0rz.local`, you may need to change th
 
 Next you need to set a few environment variables:
 
-*  `export FLASK_APP=brainz.py`
+*  `export FLASK_APP=server.py`
 *  `export FLASK_DEBUG=1`
 
 Then start flask:
