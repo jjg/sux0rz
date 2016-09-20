@@ -1,13 +1,20 @@
 from pyfirmata import Arduino, util
 from flask import Flask, render_template
 
-board = Arduino('/dev/ttyACM0')
+board = False
 
-iter8 = pyfirmata.util.Iterator(board)
-iter8.start()
+try:
+    board = Arduino('/dev/ttyACM0')
+except:
+    board = False
+    print 'No board attached, running in debug mode.'
 
-motor_1 = board.get_pin('d:11:s')
-motor_2 = board.get_pin('d:10:s')
+if board:
+    iter8 = pyfirmata.util.Iterator(board)
+    iter8.start()
+
+    motor_1 = board.get_pin('d:11:s')
+    motor_2 = board.get_pin('d:10:s')
 
 app = Flask(__name__)
 
@@ -19,12 +26,14 @@ def home():
 def motor_1_speed(speed):
         speed = int(speed)
 	rate = ((speed + 100) * 180) / 200
-	motor_1.write(rate)
+        if board:
+	    motor_1.write(rate)
 	return 'Motor 1 set to %d' % rate 
 
 @app.route('/m2/<string:speed>')
 def motor_2_speed(speed):
         speed = int(speed)
 	rate = ((speed + 100) * 180) / 200
-	motor_2.write(rate)
+        if board:
+	    motor_2.write(rate)
 	return 'Motor 2 set to %d' % rate 
