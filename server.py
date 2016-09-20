@@ -21,7 +21,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-	return render_template('home.html', server_ip=socket.gethostname())
+	return render_template('home.html', server_ip=socket.getfqdn())
 
 @app.route('/m1/<string:speed>')
 def motor_1_speed(speed):
