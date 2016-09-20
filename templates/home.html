@@ -5,7 +5,7 @@
     motor 1
 </div>
 
-<img src="http://192.168.1.201:8080/?action=stream" />
+<img src="http://192.168.1.201:8080/?action=stream" height="480" width="640" />
 
 <div id="motor_2_control" style="width:150; height:400; border: solid green; float:right;">
     motor 2
@@ -13,6 +13,31 @@
 
 <div id="log">
     log init
+</div>
+
+<div id="utilities">
+    <h3>Utilities</h3>
+    <table cellpadding="10">
+        <tr>
+            <th>motor 1</th><th>motor 2</th>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" id="motor1_arm_begin" value="motor 1 arm begin" onClick="m1Request(100)">
+            </td>
+            <td>
+                <input type="button" id="motor2_arm_begin" value="motor 2 arm begin" onClick="m2Request(100)">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" id="motor1_arm_end" value="motor 1 arm end" onClick="m1Request(-100)">
+            </td>
+            <td>
+                <input type="button" id="motor2_arm_end" value="motor 2 arm end" onClick="m2Request(-100)">
+            </td>
+        </tr>
+    </table>
 </div>
 
 <script>
