@@ -1,7 +1,13 @@
 # Requirements
 
+*  Raspian
 *  mjpg_streamer
+*  Python
+*  Flask
 *  pyfirmata
+
+# Configuration
+The `hostconfig` directory contains example configuration files used by Sux0rz.  Currently this includes roaming wifi configuration files.
 
 # Running the server
 
