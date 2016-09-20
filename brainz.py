@@ -2,8 +2,8 @@ from pyfirmata import Arduino, util
 from flask import Flask, render_template
 
 board = Arduino('/dev/ttyACM0')
-motor_1 = board.get_pin('d:10:s')
-motor_2 = board.get_pin('d:11:s')
+motor_1 = board.get_pin('d:11:s')
+motor_2 = board.get_pin('d:10:s')
 
 app = Flask(__name__)
 
