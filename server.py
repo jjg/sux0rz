@@ -11,7 +11,7 @@ except:
     print 'No board attached, running in debug mode.'
 
 if board:
-    iter8 = pyfirmata.util.Iterator(board)
+    iter8 = util.Iterator(board)
     iter8.start()
 
     motor_1 = board.get_pin('d:11:s')
